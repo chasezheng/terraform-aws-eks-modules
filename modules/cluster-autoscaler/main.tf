@@ -46,6 +46,11 @@ resource "helm_release" "autoscaler" {
   namespace        = local.namespace
   create_namespace = true
   cleanup_on_fail  = lookup(var.helm, "cleanup_on_fail", true)
+  atomic           = true
+  reset_values     = true
+  force_update     = true
+  lint             = true
+  max_history      = 10
 
   dynamic "set" {
     for_each = merge({

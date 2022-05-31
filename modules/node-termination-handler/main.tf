@@ -6,12 +6,18 @@ locals {
 }
 
 resource "helm_release" "node-termination-handler" {
-  name            = lookup(var.helm, "name", "aws-node-termination-handler")
-  chart           = lookup(var.helm, "chart", "aws-node-termination-handler")
-  version         = lookup(var.helm, "version", null)
-  repository      = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
-  namespace       = local.namespace
-  cleanup_on_fail = lookup(var.helm, "cleanup_on_fail", true)
+  name             = lookup(var.helm, "name", "aws-node-termination-handler")
+  chart            = lookup(var.helm, "chart", "aws-node-termination-handler")
+  version          = lookup(var.helm, "version", null)
+  repository       = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
+  namespace        = local.namespace
+  cleanup_on_fail  = lookup(var.helm, "cleanup_on_fail", true)
+  atomic           = true
+  reset_values     = true
+  force_update     = true
+  create_namespace = true
+  lint             = true
+  max_history      = 10
 
   dynamic "set" {
     for_each = merge({}, lookup(var.helm, "vars", {}))

@@ -54,13 +54,19 @@ module "irsa-logs" {
 }
 
 resource "helm_release" "logs" {
-  count           = local.logs_enabled ? 1 : 0
-  name            = "aws-for-fluent-bit"
-  chart           = "aws-for-fluent-bit"
-  version         = lookup(var.helm, "version", null)
-  repository      = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
-  namespace       = "kube-system"
-  cleanup_on_fail = lookup(var.helm, "cleanup_on_fail", true)
+  count            = local.logs_enabled ? 1 : 0
+  name             = "aws-for-fluent-bit"
+  chart            = "aws-for-fluent-bit"
+  version          = lookup(var.helm, "version", null)
+  repository       = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
+  namespace        = "kube-system"
+  cleanup_on_fail  = lookup(var.helm, "cleanup_on_fail", true)
+  atomic           = true
+  reset_values     = true
+  force_update     = true
+  create_namespace = true
+  lint             = true
+  max_history      = 10
 
   dynamic "set" {
     for_each = merge({

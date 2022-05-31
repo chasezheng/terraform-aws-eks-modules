@@ -25,12 +25,18 @@ resource "aws_iam_policy" "lbc" {
 }
 
 resource "helm_release" "lbc" {
-  name            = lookup(var.helm, "name", "aws-load-balancer-controller")
-  chart           = lookup(var.helm, "chart", "aws-load-balancer-controller")
-  version         = lookup(var.helm, "version", null)
-  repository      = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
-  namespace       = local.namespace
-  cleanup_on_fail = lookup(var.helm, "cleanup_on_fail", true)
+  name             = lookup(var.helm, "name", "aws-load-balancer-controller")
+  chart            = lookup(var.helm, "chart", "aws-load-balancer-controller")
+  version          = lookup(var.helm, "version", null)
+  repository       = lookup(var.helm, "repository", "https://aws.github.io/eks-charts")
+  namespace        = local.namespace
+  cleanup_on_fail  = lookup(var.helm, "cleanup_on_fail", true)
+  atomic           = true
+  reset_values     = true
+  force_update     = true
+  create_namespace = true
+  lint             = true
+  max_history      = 10
 
   dynamic "set" {
     for_each = merge({
