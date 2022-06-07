@@ -109,8 +109,6 @@ YAML
       "extraArgs.cordon-node-before-terminating" = true
       "extraArgs.ignore-daemonsets-utilization"  = true
       "extraArgs.ignore-mirror-pods-utilization" = true
-      "extraArgs.logtostderr"                    = false
-      "extraArgs.stderrthreshold"                = "error"
     }, lookup(var.helm, "vars", {}))
     content {
       name  = set.key

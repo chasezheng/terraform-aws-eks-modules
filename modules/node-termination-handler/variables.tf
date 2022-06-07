@@ -2,21 +2,13 @@
 variable "helm" {
   description = "The helm release configuration"
   type        = any
-  default = {
-    name            = "aws-node-termination-handler"
-    repository      = "https://aws.github.io/eks-charts"
-    chart           = "aws-node-termination-handler"
-    namespace       = "kube-system"
-    serviceaccount  = "aws-node-termination-handler"
-    cleanup_on_fail = true
-    vars            = {}
-  }
+  default     = {}
 }
 
 ### security/policy
 variable "oidc" {
   description = "The Open ID Connect properties"
-  type        = map(any)
+  type        = object({ url = string, arn = string })
 }
 
 ### description

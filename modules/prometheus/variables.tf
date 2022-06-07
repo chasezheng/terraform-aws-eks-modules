@@ -2,24 +2,13 @@
 variable "helm" {
   description = "The helm release configuration"
   type        = any
-  default = {
-    name       = "prometheus"
-    repository = "https://prometheus-community.github.io/helm-charts"
-    chart      = "prometheus"
-    namespace  = "prometheus"
-    values = {
-      "alertmanager.persistentVolume.storageClass" = "gp2"
-      "server.persistentVolume.storageClass"       = "gp2"
-    }
-    cleanup_on_fail = true
-    vars            = {}
-  }
+  default     = {}
 }
 
 ### security/policy
 variable "oidc" {
   description = "The Open ID Connect properties"
-  type        = map(any)
+  type        = object({ url = string, arn = string })
 }
 
 ### description
