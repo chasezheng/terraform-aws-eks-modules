@@ -2,20 +2,13 @@
 variable "helm" {
   description = "The helm release configuration"
   type        = any
-  default = {
-    name            = "cluster-autoscaler"
-    chart           = "cluster-autoscaler"
-    namespace       = "kube-system"
-    serviceaccount  = "cluster-autoscaler"
-    cleanup_on_fail = true
-    vars            = {}
-  }
+  default     = {} # See local.helm_default
 }
 
 ### security/policy
 variable "oidc" {
   description = "The Open ID Connect properties"
-  type        = map(any)
+  type        = object({ url = string, arn = string })
 }
 
 ### description
@@ -35,4 +28,8 @@ variable "tags" {
   description = "The key-value maps for tagging"
   type        = map(string)
   default     = {}
+}
+
+variable "aws_region" {
+  type = string
 }
